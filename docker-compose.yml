@@ -9,10 +9,8 @@ services:
       POSTGRES_DB: "analysisDb"
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "123456"
+
   queue:
-    image: rabbitmq:3.10-management
-    ports: 
-      - "15672:15672"
-    environment:
-      RABBITMQ_DEFAULT_USER: "admin" 
-      RABBITMQ_DEFAULT_PASS: "123456"
+    image: rabbitmq
+    ports:
+      - "5672:5672"
