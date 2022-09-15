@@ -4,6 +4,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 using System.Text.Json;
+using System.Net.Http;
 
 var factory = new ConnectionFactory
 {
@@ -26,6 +27,12 @@ consumer.Received += (model, eventArgs) => {
     AnalysisDto analysisDto = JsonSerializer.Deserialize<AnalysisDto>(message);
 
     var analysisResults = SequenceAnalysis.InitializeOperation(analysisDto);
+    var analysisResultJson = JsonSerializer.Serialize(analysisResults);
+
+    var client = new HttpClient();
+
+    HttpContent httpContent = new StringContent(analysisResultJson, Encoding.UTF8, "application/json");
+    client.PostAsync("https://localhost:44387/Register", httpContent);
 };
 
 channel.BasicConsume(queue: "product", autoAck: true, consumer: consumer);
