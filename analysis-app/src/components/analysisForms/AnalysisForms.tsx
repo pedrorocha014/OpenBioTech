@@ -1,25 +1,37 @@
-import axios from "axios";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import "./style.css"
+import { ISendAnalysisDto } from "../../services/interfaces/ISendAnalysisDto";
+import { sendAnalysisData } from "../../services/HttpClient";
 
 function AnalysisForms() {
 
     async function analysisHandle(event: FormEvent) {
         event.preventDefault();
 
-        
+        const data:ISendAnalysisDto = {
+          sequence: (document.getElementById("outlined-multiline-sequence") as HTMLInputElement).value,
+          mutations: (document.getElementById("outlined-multiline-mutation") as HTMLInputElement).value,
+          operations: [{
+            operation: (document.getElementById("outlined-basic-operation") as HTMLInputElement).value,
+            values: (document.getElementById("outlined-basic-values") as HTMLInputElement).value
+          }]
+        }
+
+        const succeeded = await sendAnalysisData(data);
+
+        console.log(succeeded);
       }
 
     const renderForm = (
       <div className="form">
         <form id="form-box" onSubmit={(e) => analysisHandle(e)}>
             <div className="forms-fields">
-                <TextField id="outlined-basic operation" label="Operation" variant="outlined" defaultValue="Default Value"/>
-                <TextField id="outlined-basic values" label="Values" variant="outlined" defaultValue="Default Value"/>
+                <TextField id="outlined-basic-operation" label="Operation" variant="outlined" defaultValue="Default Value"/>
+                <TextField id="outlined-basic-values" label="Values" variant="outlined" defaultValue="Default Value"/>
                 <TextField
-                  id="outlined-multiline-static protainSequenceText"
+                  id="outlined-multiline-sequence"
                   label="Protain Sequence"
                   multiline
                   rows={10}
@@ -27,7 +39,7 @@ function AnalysisForms() {
                   className="multiline-text"
                 />
                 <TextField
-                  id="outlined-multiline-static mutationText"
+                  id="outlined-multiline-mutation"
                   label="Mutations"
                   multiline
                   rows={10}
