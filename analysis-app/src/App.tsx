@@ -1,6 +1,5 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import AnalysisMenu from './components/analysisMenu/AnalysisMenu';
 import AnalysisForms from './components/analysisForms/AnalysisForms';
 
 function App() {
@@ -8,7 +7,13 @@ function App() {
     <div className="App">
       <header className="App-header">
       </header>
-      <AnalysisForms/>
+      <h1>Protain Analysis</h1>
+      <aside>
+        <AnalysisMenu/>
+      </aside>
+      <main>
+        <AnalysisForms/>
+      </main>
     </div>
   );
 }
