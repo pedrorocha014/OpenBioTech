@@ -5,8 +5,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
+import { useNavigate } from 'react-router-dom';
 
 function AnalysisMenu() {
+
+  let navigate = useNavigate();
 
   const drawer = (
         <div>
@@ -16,7 +19,7 @@ function AnalysisMenu() {
           <List>
             {['Delete', 'Insert', 'Replace'].map((text, index) => (
               <ListItem key={text} disablePadding>
-                <ListItemButton>
+                <ListItemButton onClick={() => navigate('/analysisForms')}>
                   <ListItemText primary={text} />
                 </ListItemButton>
               </ListItem>
