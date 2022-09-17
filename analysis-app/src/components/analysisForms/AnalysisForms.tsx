@@ -10,18 +10,28 @@ function AnalysisForms() {
     async function analysisHandle(event: FormEvent) {
         event.preventDefault();
 
+        const sequenceElement = (document.getElementById("outlined-multiline-sequence") as HTMLInputElement);
+        const mutationElement = (document.getElementById("outlined-multiline-mutation") as HTMLInputElement);
+        const operationElement = (document.getElementById("outlined-basic-operation") as HTMLInputElement);
+        const valueElement = (document.getElementById("outlined-basic-values") as HTMLInputElement);
+
         const data:ISendAnalysisDto = {
-          sequence: (document.getElementById("outlined-multiline-sequence") as HTMLInputElement).value,
-          mutations: (document.getElementById("outlined-multiline-mutation") as HTMLInputElement).value,
+          sequence: sequenceElement.value,
+          mutations: mutationElement.value,
           operations: [{
-            operation: (document.getElementById("outlined-basic-operation") as HTMLInputElement).value,
-            values: (document.getElementById("outlined-basic-values") as HTMLInputElement).value
+            operation: operationElement.value,
+            values: valueElement.value
           }]
         }
 
+        sequenceElement.value = "";
+        mutationElement.value = "";
+        operationElement.value = "";
+        valueElement.value = "";
+        
         const succeeded = await sendAnalysisData(data);
 
-        console.log(succeeded);
+        alert(succeeded ? "Analysis requested successfully !" : "Error sending data !");
       }
 
     const renderForm = (
@@ -55,11 +65,8 @@ function AnalysisForms() {
     );
 
     return (
-      <div className="app">
-        <div className="login-form">
-          <h1>Protain Analysis Forms</h1>
+      <div className="login-form">
           {renderForm}
-        </div>
       </div>
     );
 }
