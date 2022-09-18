@@ -19,7 +19,7 @@ function AnalysisMenu() {
           <List>
             {['Delete', 'Insert', 'Replace'].map((text, index) => (
               <ListItem key={text} disablePadding>
-                <ListItemButton onClick={() => navigate('/analysisForms')}>
+                <ListItemButton onClick={() => navigate('/' + text)}>
                   <ListItemText primary={text} />
                 </ListItemButton>
               </ListItem>
@@ -30,7 +30,7 @@ function AnalysisMenu() {
           <List>
             {['Results'].map((text, index) => (
               <ListItem key={text} disablePadding>
-                <ListItemButton>
+                <ListItemButton onClick={() => navigate('/' + text)} >
                   <ListItemText primary={text} />
                 </ListItemButton>
               </ListItem>
