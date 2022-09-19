@@ -12,34 +12,39 @@ function ReplaceForm() {
 
         const sequenceElement = (document.getElementById("outlined-multiline-sequence") as HTMLInputElement);
         const mutationElement = (document.getElementById("outlined-multiline-mutation") as HTMLInputElement);
-        const operationElement = (document.getElementById("outlined-basic-operation") as HTMLInputElement);
-        const valueElement = (document.getElementById("outlined-basic-values") as HTMLInputElement);
+        const valueToReplaceElement = (document.getElementById("value-to-replace") as HTMLInputElement);
+        const newValueReplaceElement = (document.getElementById("new-value") as HTMLInputElement);
+        const sequencePositionReplaceElement = (document.getElementById("sequence-position") as HTMLInputElement);
+
+        const operation = "REPLACE";
 
         const data:ISendAnalysisDto = {
           sequence: sequenceElement.value,
           mutations: mutationElement.value,
           operations: [{
-            operation: operationElement.value,
-            values: valueElement.value
+            operation: operation,
+            values: `${valueToReplaceElement.value};${sequencePositionReplaceElement.value};${newValueReplaceElement.value}`
           }]
         }
 
         sequenceElement.value = "";
         mutationElement.value = "";
-        operationElement.value = "";
-        valueElement.value = "";
+        valueToReplaceElement.value = "";
+        newValueReplaceElement.value = "";
+        sequencePositionReplaceElement.value = "";
         
         const succeeded = await sendAnalysisData(data);
 
         alert(succeeded ? "Analysis requested successfully !" : "Error sending data !");
       }
-
+      
     const renderForm = (
       <div className="form">
         <form id="form-box" onSubmit={(e) => analysisHandle(e)}>
             <div className="forms-fields">
-                <TextField id="outlined-basic-operation" label="Operation" variant="outlined" defaultValue="Default Value"/>
-                <TextField id="outlined-basic-values" label="Values" variant="outlined" defaultValue="Default Value"/>
+                <TextField id="value-to-replace" label="Value to Replace" variant="outlined" defaultValue="..."/>
+                <TextField id="sequence-position" label="Sequence Position" variant="outlined" defaultValue="..."/>
+                <TextField id="new-value" label="New Value" variant="outlined" defaultValue="Default Value"/>
                 <TextField
                   id="outlined-multiline-sequence"
                   label="Protain Sequence"
