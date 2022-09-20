@@ -1,5 +1,4 @@
 #table-container{
     display: flex;
-    padding-left: 5%;
-    padding-right: 5%;
+    margin: auto;
 }
