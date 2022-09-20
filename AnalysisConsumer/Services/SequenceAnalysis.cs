@@ -1,4 +1,5 @@
-﻿using AnalysisConsumer.Models;
+﻿using AnalysisConsumer.Analysis;
+using AnalysisConsumer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,8 @@ namespace AnalysisConsumer.Services
                     switch (op.Operation)
                     {
                         case "REPLACE":
-                            var replaceResult = Replace(sequence, values[0].ToCharArray()[0], Int32.Parse(values[1]), values[2].ToCharArray()[0]);
+                            var replaceOperation = new ReplaceOperation("REPLACE", sequence, values[0].ToCharArray()[0], Int32.Parse(values[1]), values[2].ToCharArray()[0]);
+                            var replaceResult = replaceOperation.ExecuteOperation();
                             analysisResult.Result.Add(replaceResult);
                             break;
                     }
@@ -46,30 +48,6 @@ namespace AnalysisConsumer.Services
 
             return analysisResult;
         }
-
-        private static Result Replace(List<char> sequence, char valueToReplace, int position, char newValue)
-        {
-            var result = new Result { Operation = "REPLACE" };
-
-            var indexPosition = position - 1;
-
-            if (sequence[indexPosition] != valueToReplace)
-            {
-                result.IsSuccess = false;
-                result.Message = $"Position {position} does not contain {valueToReplace}.";
-                result.Value = "";
-
-                return result;
-            }
-
-            sequence[indexPosition] = newValue;
-
-            result.IsSuccess = true;
-            result.Message = $"Operation performed successfully.";
-            result.Value = JsonSerializer.Serialize<List<Char>>(sequence);
-
-            return result;
-        }  
 
         private static List<char> GetSequenceList(string sequenceString)
         {
