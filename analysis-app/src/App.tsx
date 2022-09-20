@@ -13,20 +13,20 @@ function App() {
       <header className="App-header">
       </header>
       <h1>Protain Analysis</h1>
-      <main>
-        <BrowserRouter>
+      <BrowserRouter>
           <aside>
             <AnalysisMenu/>
           </aside>
-          <Routes>
-              <Route path="/" element={<h1>WELCOME !</h1>} />
-              <Route path="/Replace" element={<ReplaceForm/>} />
-              <Route path="/Insert" element={<InsertForm/>} />
-              <Route path="/Delete" element={<DeleteForm/>} />
-              <Route path="/Results" element={<AnalysisTableResult/>} />
-          </Routes>
+          <main>
+            <Routes>
+                  <Route path="/" element={<h1>WELCOME !</h1>} />
+                  <Route path="/Replace" element={<ReplaceForm/>} />
+                  <Route path="/Insert" element={<InsertForm/>} />
+                  <Route path="/Delete" element={<DeleteForm/>} />
+                  <Route path="/Results" element={<AnalysisTableResult/>} />
+              </Routes>
+            </main>
         </BrowserRouter>
-      </main>
     </div>
   );
 }
