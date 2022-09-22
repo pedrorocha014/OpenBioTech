@@ -18,7 +18,6 @@ namespace AnalysisDelivery.Models
         [Required]
         [OperationsType]
         public string Operation { get; set; }
-        [Required]
-        public string Values { get; set; }
+        public string? Values { get; set; }
     }
 }
