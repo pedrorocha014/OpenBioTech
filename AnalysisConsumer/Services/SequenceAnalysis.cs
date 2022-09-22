@@ -23,12 +23,12 @@ namespace AnalysisConsumer.Services
             {
                 try
                 {
-                    var values = op.Values.Trim().Split(';');
+                    var values = op.Values?.Trim().Split(';');
 
                     switch (op.Operation)
                     {
                         case "REPLACE":
-                            var replaceOperation = new ReplaceOperation("REPLACE", sequence, values[0].ToCharArray()[0], Int32.Parse(values[1]), values[2].ToCharArray()[0]);
+                            var replaceOperation = new ReplaceOperation(sequence, mutations);
                             var replaceResult = replaceOperation.ExecuteOperation();
                             analysisResult.Result.Add(replaceResult);
                             break;

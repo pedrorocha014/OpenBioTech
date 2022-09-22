@@ -1,4 +1,5 @@
 ﻿using AnalysisConsumer.Analysis.Interfaces;
+using AnalysisConsumer.Helpers.Errors;
 using AnalysisConsumer.Models;
 using System;
 using System.Collections.Generic;
@@ -15,36 +16,63 @@ namespace AnalysisConsumer.Analysis
         private string _operationName;
 
         private readonly List<char> _sequence;
-        private readonly char _valueToReplace;
-        private readonly int _position;
-        private readonly char _newValue;
+        private readonly List<string> _mutations;
 
-        public ReplaceOperation(string operationName, List<char> sequence, char valueToReplace, int position, char newValue)
+        public ReplaceOperation(List<char> sequence, List<string> mutations)
         {
-            OperationName = operationName;
+            OperationName = "REPLACE";
 
             _sequence = sequence;
-            _valueToReplace = valueToReplace;
-            _position = position;
-            _newValue = newValue;
+            _mutations = mutations;
         }
 
         public Result ExecuteOperation()
         {
-            var result = new Result { Operation = "REPLACE" };
+            var result = new Result { Operation = OperationName };
 
-            var indexPosition = _position - 1;
+            try
+            {
+                _mutations.ForEach(mutation =>
+                {
+                    mutation = mutation.Trim();
 
-            if (_sequence[indexPosition] != _valueToReplace)
+                    if (mutation.Contains("del") || mutation.Contains("ins"))
+                    {
+                        return;
+                    }
+
+                    char protainToReplace = mutation[0];
+                    char protainNewValue = mutation[mutation.Length - 1];
+
+                    var indexFrom = mutation.IndexOf(protainToReplace) + 1;
+                    var indexTo = mutation.LastIndexOf(protainNewValue);
+
+                    var position = Int32.Parse(mutation.Substring(indexFrom, indexTo - indexFrom));
+
+                    if (_sequence[position - 1] != protainToReplace)
+                    {
+                        throw new ValuePositionExeption($"Position {position - 1} does not contain {protainToReplace}.");
+                    }
+
+                    _sequence[position - 1] = protainNewValue;
+                });
+            }
+            catch (ValuePositionExeption e)
             {
                 result.IsSuccess = false;
-                result.Message = $"Position {_position} does not contain {_valueToReplace}.";
+                result.Message = e.Message;
                 result.Value = "";
 
                 return result;
             }
+            catch (Exception e)
+            {
+                result.IsSuccess = false;
+                result.Message = "Internal Error.";
+                result.Value = "";
 
-            _sequence[indexPosition] = _newValue;
+                return result;
+            }
 
             result.IsSuccess = true;
             result.Message = $"Operation performed successfully.";
