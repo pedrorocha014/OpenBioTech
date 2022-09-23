@@ -32,6 +32,12 @@ namespace AnalysisConsumer.Services
                             var replaceResult = replaceOperation.ExecuteOperation();
                             analysisResult.Result.Add(replaceResult);
                             break;
+
+                        case "DELETE":
+                            var deleteOperation = new DeleteOperation(sequence, mutations);
+                            var deleteResult = deleteOperation.ExecuteOperation();
+                            analysisResult.Result.Add(deleteResult);
+                            break;
                     }
                 }
                 catch (Exception)
