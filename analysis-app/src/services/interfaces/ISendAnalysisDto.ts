@@ -1,6 +1,6 @@
 export interface Operation {
     operation: string;
-    values: string;
+    values?: string;
 }
 
 export interface ISendAnalysisDto {
