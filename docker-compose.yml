@@ -11,6 +11,7 @@ services:
       POSTGRES_PASSWORD: "123456"
 
   queue:
-    image: rabbitmq
+    image: rabbitmq:management
     ports:
       - "5672:5672"
+      - "15672:15672"
