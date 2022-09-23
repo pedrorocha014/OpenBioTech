@@ -12,9 +12,6 @@ function ReplaceForm() {
 
         const sequenceElement = (document.getElementById("outlined-multiline-sequence") as HTMLInputElement);
         const mutationElement = (document.getElementById("outlined-multiline-mutation") as HTMLInputElement);
-        const valueToReplaceElement = (document.getElementById("value-to-replace") as HTMLInputElement);
-        const newValueReplaceElement = (document.getElementById("new-value") as HTMLInputElement);
-        const sequencePositionReplaceElement = (document.getElementById("sequence-position") as HTMLInputElement);
 
         const operation = "REPLACE";
 
@@ -22,16 +19,12 @@ function ReplaceForm() {
           sequence: sequenceElement.value,
           mutations: mutationElement.value,
           operations: [{
-            operation: operation,
-            values: `${valueToReplaceElement.value};${sequencePositionReplaceElement.value};${newValueReplaceElement.value}`
+            operation: operation
           }]
         }
 
         sequenceElement.value = "";
         mutationElement.value = "";
-        valueToReplaceElement.value = "";
-        newValueReplaceElement.value = "";
-        sequencePositionReplaceElement.value = "";
         
         const succeeded = await sendAnalysisData(data);
 
@@ -42,9 +35,6 @@ function ReplaceForm() {
       <div className="form">
         <form id="form-box" onSubmit={(e) => analysisHandle(e)}>
             <div className="forms-fields">
-                <TextField id="value-to-replace" label="Value to Replace" variant="outlined" defaultValue="..."/>
-                <TextField id="sequence-position" label="Sequence Position" variant="outlined" defaultValue="..."/>
-                <TextField id="new-value" label="New Value" variant="outlined" defaultValue="Default Value"/>
                 <TextField
                   id="outlined-multiline-sequence"
                   label="Protain Sequence"
