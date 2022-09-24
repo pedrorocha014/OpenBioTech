@@ -49,12 +49,12 @@ namespace AnalysisConsumer.Analysis
 
                         foreach (int position in Enumerable.Range(startRange, endRange - startRange + 1))
                         {
-                            _sequence[position + 1] = '-';
+                            _sequence[position - 1] = '-';
                         }
                     }
                     else
                     {
-                        _sequence[Int32.Parse(positionsToDelete[0]) + 1] = '-';
+                        _sequence[Int32.Parse(positionsToDelete[0]) - 1] = '-';
                     }
 
                     
