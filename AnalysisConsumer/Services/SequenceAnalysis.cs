@@ -38,6 +38,12 @@ namespace AnalysisConsumer.Services
                             var deleteResult = deleteOperation.ExecuteOperation();
                             analysisResult.Result.Add(deleteResult);
                             break;
+
+                        case "INSERT":
+                            var insertOperation = new InsertOperation(sequence, mutations);
+                            var insertResult = insertOperation.ExecuteOperation();
+                            analysisResult.Result.Add(insertResult);
+                            break;
                     }
                 }
                 catch (Exception)
