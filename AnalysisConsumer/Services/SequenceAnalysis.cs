@@ -11,13 +11,13 @@ namespace AnalysisConsumer.Services
 {
     public static class SequenceAnalysis
     {
-        public static AnalysisResult InitializeOperation(AnalysisDto analysisDto)
+        public static Result InitializeOperation(AnalysisDto analysisDto)
         {
             var sequence = GetSequenceList(analysisDto.Sequence);
             var mutations = GetMutationList(analysisDto.Mutations);
+            var operations = "";
 
-            AnalysisResult analysisResult = new AnalysisResult();
-            analysisResult.Result = new List<Result>();
+            Result analysisResult = new Result();
 
             analysisDto.Operations.ForEach(op =>
             {
@@ -30,33 +30,38 @@ namespace AnalysisConsumer.Services
                         case "REPLACE":
                             var replaceOperation = new ReplaceOperation(sequence, mutations);
                             var replaceResult = replaceOperation.ExecuteOperation();
-                            analysisResult.Result.Add(replaceResult);
+                            analysisResult = replaceResult;
+                            operations += "REPLACE;";
                             break;
 
                         case "DELETE":
                             var deleteOperation = new DeleteOperation(sequence, mutations);
                             var deleteResult = deleteOperation.ExecuteOperation();
-                            analysisResult.Result.Add(deleteResult);
+                            analysisResult = deleteResult;
+                            operations += "DELETE;";
                             break;
 
                         case "INSERT":
                             var insertOperation = new InsertOperation(sequence, mutations);
                             var insertResult = insertOperation.ExecuteOperation();
-                            analysisResult.Result.Add(insertResult);
+                            analysisResult = insertResult;
+                            operations += "INSERT;";
                             break;
                     }
                 }
                 catch (Exception)
                 {
                     var errorResult = new Result {
-                        Operation = op.Operation,
+                        Operation = operations,
                         Value = op.Values,
                         IsSuccess = false,
                         Message = "Operation Error"
                     };
-                    analysisResult.Result.Add(errorResult);
+                    analysisResult = errorResult;
                 }
             });
+
+            analysisResult.Operation = operations;
 
             return analysisResult;
         }
