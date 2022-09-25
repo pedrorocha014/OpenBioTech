@@ -16,12 +16,9 @@ namespace AnalysisRegister.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterAnalysisResult([FromBody] AnalysisResult analysisResults)
+        public async Task<IActionResult> RegisterAnalysisResult([FromBody] Result analysisResults)
         {
-            analysisResults.Result.ForEach(result =>
-            {
-                _service.RegisterAnalysisResult(result);
-            });
+            _service.RegisterAnalysisResult(analysisResults);
 
             return Ok();
         }

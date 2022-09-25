@@ -1,10 +1,5 @@
 ﻿namespace AnalysisRegister.Models
 {
-    public class AnalysisResult
-    {
-        public List<Result> Result { get; set; }
-    }
-
     public class Result
     {
         public string Operation { get; set; }
