@@ -15,15 +15,13 @@ function AnalysisMenu() {
         <div>
           <Toolbar />
           <Divider />
-          <h4>Analysis Operations</h4>
+          <h4>Analysis</h4>
           <List>
-            {['Delete', 'Insert', 'Replace'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton onClick={() => navigate('/' + text)}>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+            <ListItem key="ProteinSequence" disablePadding>
+              <ListItemButton onClick={() => navigate('/proteinSequence')}>
+                <ListItemText primary="Protein Sequence" />
+              </ListItemButton>
+            </ListItem>
           </List>
           <Divider />
           <h4>Analysis Results</h4>
