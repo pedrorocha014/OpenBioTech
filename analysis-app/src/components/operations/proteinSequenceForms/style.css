@@ -1,0 +1,14 @@
+.forms-fields{
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem;
+}
+
+.multiline-text{
+    width: 30rem;
+}
+
+.button-container{
+    margin: 1rem;
+}
