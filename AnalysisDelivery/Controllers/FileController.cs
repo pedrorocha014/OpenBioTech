@@ -16,7 +16,7 @@ namespace AnalysisDelivery.Controllers
         }
 
         [HttpPost]
-        public IActionResult deliverMessage([FromBody] AnalysisDto analysisDto)
+        public IActionResult DeliverMessage([FromBody] AnalysisDto analysisDto)
         {
             _rabitMQProducer.SendProductMessage(analysisDto);
             return Ok();
