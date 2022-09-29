@@ -15,3 +15,15 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    
+  analysis-app:
+    build: ./analysis-app
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+
+  analysis-deliver:
+    build: ./AnalysisDelivery
+    ports:
+      - "8091:8091"
