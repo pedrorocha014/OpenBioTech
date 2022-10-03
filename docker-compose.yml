@@ -5,25 +5,52 @@ services:
     restart: "always"
     ports: 
       - "5432:5432"
+    volumes:
+      - ./sql/analysisDb_create_tables.sql:/docker-entrypoint-initdb.d/analysisDb_create_tables.sql
+      - ./sql/analysisDb_fill_tables.sql:/docker-entrypoint-initdb.d/analysisDb_fill_tables.sql
     environment:
       POSTGRES_DB: "analysisDb"
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "123456"
+    networks:
+      - local
 
   queue:
     image: rabbitmq:management
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - local
     
   analysis-app:
     build: ./analysis-app
     ports:
       - "3000:3000"
     stdin_open: true
-    tty: true
+    networks:
+      - local
 
   analysis-deliver:
     build: ./AnalysisDelivery
     ports:
-      - "8091:8091"
+      - "8081:80"
+    networks:
+      - local
+
+  analysis-consumer:
+    build: ./AnalysisConsumer
+    networks:
+      - local
+    stdin_open: true 
+
+  analysis-register:
+    build: ./AnalysisRegister
+    ports:
+      - "8082:80"
+    networks:
+      - local
+
+networks:
+  local:
+    driver: bridge

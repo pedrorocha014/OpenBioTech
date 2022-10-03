@@ -8,7 +8,7 @@ using System.Net.Http;
 
 var factory = new ConnectionFactory
 {
-    HostName = "localhost"
+    HostName = "protein-sequence-service_queue_1"
 };
 
 var connection = factory.CreateConnection();
@@ -32,8 +32,8 @@ consumer.Received += (model, eventArgs) => {
     var client = new HttpClient();
 
     HttpContent httpContent = new StringContent(analysisResultJson, Encoding.UTF8, "application/json");
-    client.PostAsync("https://localhost:44387/Register", httpContent);
+    client.PostAsync("http://protein-sequence-service_analysis-register_1:80/Register", httpContent);
 };
 
 channel.BasicConsume(queue: "product", autoAck: true, consumer: consumer);
-Console.ReadKey();
+Console.Read();
