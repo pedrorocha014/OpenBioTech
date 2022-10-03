@@ -10,7 +10,7 @@ namespace AnalysisDelivery.RabbitMq
         {
             var factory = new ConnectionFactory
             {
-                HostName = "localhost"
+                HostName = "protein-sequence-service_queue_1"
             };
 
             var connection = factory.CreateConnection();

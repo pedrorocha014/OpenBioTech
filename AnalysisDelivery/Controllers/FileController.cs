@@ -21,5 +21,11 @@ namespace AnalysisDelivery.Controllers
             _rabitMQProducer.SendProductMessage(analysisDto);
             return Ok();
         }
+
+        [HttpGet]
+        public IActionResult Check()
+        {
+            return Ok();
+        }
     }
 }

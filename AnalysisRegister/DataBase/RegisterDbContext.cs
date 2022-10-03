@@ -13,6 +13,6 @@ namespace AnalysisRegister.DataBase
         public DbSet<RegisterResult> Results { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql("Host=localhost;Database=analysisDb;Port=5432;Username=admin;Password=123456");
+            => optionsBuilder.UseNpgsql("Host=protein-sequence-service_analysisDb_1;Database=analysisDb;Port=5432;Username=admin;Password=123456");
     }
 }

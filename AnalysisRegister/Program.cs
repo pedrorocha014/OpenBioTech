@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddDbContext<RegisterDbContext>(options =>
-            options.UseNpgsql("Host=localhost;Database=analysisDb;Port=5432;Username=admin;Password=123456"));
+            options.UseNpgsql("Host=protein-sequence-service_analysisDb_1;Database=analysisDb;Port=5432;Username=admin;Password=123456"));
 
 builder.Services.AddScoped<IRegister, Register>();
 
@@ -35,8 +35,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAll");
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
