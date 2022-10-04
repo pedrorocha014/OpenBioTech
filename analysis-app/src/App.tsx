@@ -10,7 +10,6 @@ function App() {
     <div className="App">
       <header className="App-header">
       </header>
-      <h1>Protain Analysis</h1>
       <BrowserRouter>
         <aside>
           <AnalysisMenu/>
