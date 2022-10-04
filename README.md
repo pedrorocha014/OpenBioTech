@@ -10,7 +10,7 @@
 
 
 ## License
-[MIT](LICENSE)
+[MIT](LICENSE.me)
 
 ## How to Contribute
 
