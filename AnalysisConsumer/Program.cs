@@ -32,7 +32,7 @@ consumer.Received += (model, eventArgs) => {
     var client = new HttpClient();
 
     HttpContent httpContent = new StringContent(analysisResultJson, Encoding.UTF8, "application/json");
-    client.PostAsync("http://protein-sequence-service_analysis-register_1:80/Register", httpContent);
+    client.PostAsync("http://analysis-register-container:80/Register", httpContent);
 };
 
 channel.BasicConsume(queue: "product", autoAck: true, consumer: consumer);
