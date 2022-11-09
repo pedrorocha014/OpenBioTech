@@ -1,4 +1,4 @@
-# Protein-Sequence-Service
+# OpenBioTech
 
 ## Description
 
