@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OBioTech.Models;
 
 namespace OBioTech.Controllers
 {
@@ -12,7 +13,7 @@ namespace OBioTech.Controllers
         }
 
         [HttpPost("proteinSequence")]
-        public IActionResult SendProteinSequenceDataToAnalysis()
+        public IActionResult SendProteinSequenceDataToAnalysis([FromBody] AnalysisDto analysisDto)
         {
             return Ok();
         }

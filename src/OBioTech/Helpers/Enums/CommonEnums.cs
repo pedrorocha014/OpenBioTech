@@ -2,6 +2,6 @@
 {
     public enum AnalysisType
     {
-        ProteinSequence
+        PROTEIN_SEQUENCE
     }
 }

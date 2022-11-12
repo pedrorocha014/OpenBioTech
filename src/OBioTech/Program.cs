@@ -1,5 +1,6 @@
 using AnalysisRegister.DataBase;
 using Microsoft.EntityFrameworkCore;
+using OBioTech.Services.Analysis;
 using OBioTech.Services.Register;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,7 @@ builder.Services.AddDbContext<RegisterDbContext>(options =>
             options.UseNpgsql("Host=localhost;Database=analysisDb;Port=5432;Username=admin;Password=123456"));
 
 builder.Services.AddScoped<IRegisterService, RegisterService>();
+builder.Services.AddScoped<IAnalysisMap, AnalysisMap>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
