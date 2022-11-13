@@ -1,23 +1,27 @@
-﻿using AnalysisRegister.DataBase;
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using OBioTech.Models;
 
 namespace OBioTech.Services.Register
 {
-    public class RegisterService : IRegisterService
+    public class RegisterService
     {
-        private readonly RegisterDbContext _context;
+        private readonly IMongoCollection<RegisterResult> _registerCollection;
 
-        public RegisterService(RegisterDbContext context)
+        public RegisterService(
+            IOptions<DatabaseModel> settings)
         {
-            _context = context;
+            var mongoClient = new MongoClient("mongodb+srv://obiotech:P*0a3lpqa*@cluster0.iofqkcq.mongodb.net/?retryWrites=true&w=majority");
+
+            var mongoDatabase = mongoClient.GetDatabase("OBioTech");
+
+            _registerCollection = mongoDatabase.GetCollection<RegisterResult>("Registers");
         }
 
-        public List<RegisterResult> GetResults()
-        {
-            return _context.Results.ToList();
-        }
+        public async Task<List<RegisterResult>> GetAsync() =>
+            await _registerCollection.Find(_ => true).ToListAsync();
 
-        public void RegisterAnalysisResult(AnalysisResult analysisResult)
+        public async Task CreateAsync(AnalysisResult analysisResult)
         {
             var resultDto = new RegisterResult
             {
@@ -27,8 +31,7 @@ namespace OBioTech.Services.Register
                 Value = analysisResult.Value
             };
 
-            _context.Results.Add(resultDto);
-            _context.SaveChanges();
+            await _registerCollection.InsertOneAsync(resultDto);
         }
     }
 }

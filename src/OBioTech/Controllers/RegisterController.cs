@@ -8,17 +8,17 @@ namespace OBioTech.Controllers
     [Route("[controller]")]
     public class RegisterController: ControllerBase
     {
-        private readonly IRegisterService _registerService;
+        private readonly RegisterService _registerService;
 
-        public RegisterController(IRegisterService registerService)
+        public RegisterController(RegisterService registerService)
         {
             _registerService = registerService;
         }
 
         [HttpGet]
-        public IActionResult GetRegisterResults()
+        public async Task<IActionResult> GetRegisterResults()
         {
-            var results = _registerService.GetResults();
+            var results = await _registerService.GetAsync();
             return Ok(results);
         }
     }
