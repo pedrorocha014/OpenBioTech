@@ -1,17 +1,14 @@
 ﻿using OBioTech.Helpers.Enums;
 using OBioTech.Models;
 using OBioTech.Services.Analysis.Operation;
-
 namespace OBioTech.Services.Analysis
 {
     public class AnalysisMap : IAnalysisMap
     {
-        public RegisterResult MapAnalysis(AnalysisDto analysisDto)
+        public AnalysisResult MapAnalysis(AnalysisDto analysisDto)
         {
-            RegisterResult analysisResult = new RegisterResult();
-
             AnalysisType analysisType;
-            IOperation operation;
+            IOperation operation = null;
 
             Enum.TryParse(analysisDto.Type, out analysisType);
 
@@ -26,10 +23,8 @@ namespace OBioTech.Services.Analysis
                 default:
                     break;
             }
-
-            operation.ExecuteOperation();
-
-            return analysisResult;
+            
+            return operation.ExecuteOperation();
         }
 
         private static List<char> GetSequenceList(string sequenceString)

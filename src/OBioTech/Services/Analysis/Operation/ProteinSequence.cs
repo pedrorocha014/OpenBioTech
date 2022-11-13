@@ -16,9 +16,9 @@ namespace OBioTech.Services.Analysis.Operation
             _mutations = mutations;
         }
 
-        public RegisterResult ExecuteOperation()
+        public AnalysisResult ExecuteOperation()
         {
-            var result = new RegisterResult { Operation = "Protein Sequence" };
+            var result = new AnalysisResult { Operation = "Protein Sequence" };
 
             try
             {

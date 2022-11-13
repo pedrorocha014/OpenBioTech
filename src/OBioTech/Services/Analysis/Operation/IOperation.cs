@@ -4,6 +4,6 @@ namespace OBioTech.Services.Analysis.Operation
 {
     public interface IOperation
     {
-        public RegisterResult ExecuteOperation();
+        public AnalysisResult ExecuteOperation();
     }
 }
