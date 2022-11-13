@@ -11,6 +11,8 @@ namespace OBioTech.Services.Analysis
             RegisterResult analysisResult = new RegisterResult();
 
             AnalysisType analysisType;
+            IOperation operation;
+
             Enum.TryParse(analysisDto.Type, out analysisType);
 
             switch (analysisType)
@@ -19,12 +21,13 @@ namespace OBioTech.Services.Analysis
                     var sequence = GetSequenceList(analysisDto.Sequence);
                     var mutations = GetMutationList(analysisDto.Mutations);
 
-                    var operation = new ProteinSequence(sequence, mutations);
-                    operation.ExecuteOperation();
+                    operation = new ProteinSequence(sequence, mutations);
                     break;
                 default:
                     break;
             }
+
+            operation.ExecuteOperation();
 
             return analysisResult;
         }
