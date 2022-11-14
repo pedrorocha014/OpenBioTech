@@ -1,11 +1,29 @@
+using OBioTech.Models;
+using OBioTech.Services.Analysis;
+using OBioTech.Services.Register;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<DatabaseModel>(
+    builder.Configuration.GetSection("OBioTech"));
+
+builder.Services.AddScoped<IAnalysisMap, AnalysisMap>();
+builder.Services.AddSingleton<RegisterService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowAll", builder => {
+        builder
+        .AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -16,7 +34,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
