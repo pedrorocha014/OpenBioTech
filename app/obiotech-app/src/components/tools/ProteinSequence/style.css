@@ -1,0 +1,23 @@
+.grid-title{
+    float: left;
+}
+
+.description{
+    float: left;
+    text-align: justify;
+}
+
+.multiline-text{
+    width: 30rem;
+}
+
+.forms-fields{
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem;
+}
+
+.button-container{
+    margin: 1rem;
+} 
