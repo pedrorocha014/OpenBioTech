@@ -10,19 +10,16 @@ namespace OBioTech.Controllers
     public class AnalysisController : ControllerBase
     {
         private readonly IAnalysisMap _analysisMap;
-        private readonly RegisterService _registerService;
 
         public AnalysisController(IAnalysisMap analysisMap, RegisterService registerService)
         {
             _analysisMap = analysisMap;
-            _registerService = registerService;
         }
 
         [HttpPost]
         public async Task<IActionResult> SendDataToAnalysis([FromBody] AnalysisDto analysisDto)
         {
-            var result = _analysisMap.MapAnalysis(analysisDto);
-            await _registerService.CreateAsync(result);
+            var result = _analysisMap.Map(analysisDto);
 
             return Ok(result);
         }

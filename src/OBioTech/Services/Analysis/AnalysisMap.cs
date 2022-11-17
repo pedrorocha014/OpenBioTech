@@ -5,12 +5,12 @@ namespace OBioTech.Services.Analysis
 {
     public class AnalysisMap : IAnalysisMap
     {
-        public AnalysisResult MapAnalysis(AnalysisDto analysisDto)
+        public AnalysisResult Map(AnalysisDto analysisDto)
         {
             AnalysisType analysisType;
-            IOperation operation = null;
-
             Enum.TryParse(analysisDto.Type, out analysisType);
+
+            OperationBase operation = null;
 
             switch (analysisType)
             {
