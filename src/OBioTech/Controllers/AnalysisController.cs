@@ -18,13 +18,13 @@ namespace OBioTech.Controllers
             _registerService = registerService;
         }
 
-        [HttpPost("proteinSequence")]
-        public async Task<IActionResult> SendProteinSequenceDataToAnalysis([FromBody] AnalysisDto analysisDto)
+        [HttpPost]
+        public async Task<IActionResult> SendDataToAnalysis([FromBody] AnalysisDto analysisDto)
         {
             var result = _analysisMap.MapAnalysis(analysisDto);
             await _registerService.CreateAsync(result);
 
-            return Ok();
+            return Ok(result);
         }
 
         [HttpGet]
