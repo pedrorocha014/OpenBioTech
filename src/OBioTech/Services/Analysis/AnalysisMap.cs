@@ -14,11 +14,14 @@ namespace OBioTech.Services.Analysis
 
             switch (analysisType)
             {
-                case AnalysisType.PROTEIN_SEQUENCE:
+                case AnalysisType.SEQUENCE:
                     var sequence = GetSequenceList(analysisDto.Sequence);
                     var mutations = GetMutationList(analysisDto.Mutations);
 
                     operation = new ProteinSequence(sequence, mutations);
+                    break;
+                case AnalysisType.RMSD:
+                    operation = new RMSD();
                     break;
                 default:
                     break;

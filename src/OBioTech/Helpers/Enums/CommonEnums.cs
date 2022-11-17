@@ -2,6 +2,7 @@
 {
     public enum AnalysisType
     {
-        PROTEIN_SEQUENCE
+        SEQUENCE,
+        RMSD
     }
 }
