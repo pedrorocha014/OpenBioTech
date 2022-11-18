@@ -8,22 +8,24 @@ export function RmsdComponent() {
 
     const [loading, setLoading] = useState(false);
   
-    async function analysisHandle(event: FormEvent) {
+    async function analysisHandle(event: React.ChangeEvent<HTMLInputElement>) {
         event.preventDefault();
-        
+
+        const files = Array.from(event.target.files || []);
+
         const resultElement = (document.getElementById("result-multiline") as HTMLInputElement);
-        console.log(event)
-        // let data:ISendRMSDDto = {
-        //   file: 
-        //   type: "RMSD"
-        // }
+
+        let data:ISendRMSDDto = {
+          file: files[0],
+          type: "RMSD"
+        }
 
         setLoading(true);
-        //const response = await sendRMSDData(data);
+        const response = await sendRMSDData(data);
       
-        //(response.data.isSuccess ? "Analysis requested successfully !" : response.data.message );
+        alert(response.data.isSuccess ? "RMSD requested successfully !" : response.data.message );
       
-        // resultElement.value = response.data.value.replaceAll('[', '').replaceAll(']','').replaceAll('"','').replaceAll(',','');
+        resultElement.value = response.data.value;
         setLoading(false);
     }
 
