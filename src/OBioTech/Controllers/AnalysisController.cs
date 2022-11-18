@@ -26,7 +26,8 @@ namespace OBioTech.Controllers
         [HttpPost("rmsd")]
         public async Task<IActionResult> SendDataToRMSDOperation([FromForm] RmsdDto rmsdDto)
         {
-            return Ok();
+            var result = _analysisMap.Map(rmsdDto);
+            return Ok(result);
         }
 
         [HttpGet]
