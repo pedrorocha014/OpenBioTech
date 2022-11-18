@@ -1,4 +1,5 @@
 ﻿using OBioTech.Helpers.CustomErrors;
+using OBioTech.Helpers.Data;
 using OBioTech.Models;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -10,10 +11,10 @@ namespace OBioTech.Services.Analysis.Operation
         private readonly List<char> _sequence;
         private readonly List<string> _mutations;
 
-        public ProteinSequence(List<char> sequence, List<string> mutations)
+        public ProteinSequence(AnalysisDto analysisDto)
         {
-            _sequence = sequence;
-            _mutations = mutations;
+            _sequence = ExtractData.GetSequenceList(analysisDto.Sequence);
+            _mutations = ExtractData.GetMutationList(analysisDto.Mutations);
         }
 
         public override AnalysisResult ExecuteOperation()

@@ -6,9 +6,11 @@ namespace OBioTech.Models
     public class AnalysisDto
     {
         [Required]
-        public string Sequence { get; set; }
+        public IFormFile? File { get; set; }
         [Required]
-        public string Mutations { get; set; }
+        public string? Sequence { get; set; }
+        [Required]
+        public string? Mutations { get; set; }
         [Required]
         [AnalysisTypeValidation]
         public string Type { get; set; }

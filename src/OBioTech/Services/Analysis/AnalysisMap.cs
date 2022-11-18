@@ -1,4 +1,5 @@
-﻿using OBioTech.Helpers.Enums;
+﻿using OBioTech.Helpers.CustomErrors;
+using OBioTech.Helpers.Enums;
 using OBioTech.Models;
 using OBioTech.Services.Analysis.Operation;
 namespace OBioTech.Services.Analysis
@@ -7,44 +8,31 @@ namespace OBioTech.Services.Analysis
     {
         public AnalysisResult Map(AnalysisDto analysisDto)
         {
-            AnalysisType analysisType;
-            Enum.TryParse(analysisDto.Type, out analysisType);
+            _ = Enum.TryParse(analysisDto.Type, out AnalysisType analysisType);
 
-            OperationBase operation = null;
+            OperationBase? operation = null;
 
             switch (analysisType)
             {
                 case AnalysisType.SEQUENCE:
-                    var sequence = GetSequenceList(analysisDto.Sequence);
-                    var mutations = GetMutationList(analysisDto.Mutations);
-
-                    operation = new ProteinSequence(sequence, mutations);
+                    operation = new ProteinSequence(analysisDto);
                     break;
+
                 case AnalysisType.RMSD:
-                    operation = new RMSD();
+                    operation = new RMSD(analysisDto);
                     break;
                 default:
                     break;
             }
-            
-            return operation.ExecuteOperation();
-        }
 
-        private static List<char> GetSequenceList(string sequenceString)
-        {
-            return
-                sequenceString
-                .Trim()
-                .ToCharArray()
-                .ToList();
-        }
+            var result = operation?.ExecuteOperation();
 
-        private static List<string> GetMutationList(string mutationString)
-        {
-            return mutationString
-                .Trim()
-                .Split(',')
-                .ToList();
+            if (result is null)
+            {
+                throw new OperationException("Operation is Null.");
+            }
+
+            return result;
         }
     }
 }

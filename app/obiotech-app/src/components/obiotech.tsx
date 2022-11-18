@@ -15,6 +15,8 @@ import { MainListItems, ToolsListItems } from './listItems';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ProteinSequence } from './tools/ProteinSequence/proteinSequence';
 import { HomeComponent } from './Home/homeComponent';
+import { RmsdComponent } from './tools/RMSD/rmsdComponent';
+
 
 const drawerWidth: number = 240;
 
@@ -136,7 +138,8 @@ function OBioTechContent() {
             <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                 <Routes>
                   <Route path="/" element={<HomeComponent/>} />
-                  <Route path="/proteinSequence" element={<ProteinSequence/>} />
+                  <Route path="/sequence" element={<ProteinSequence/>} />
+                  <Route path="/rmsd" element={<RmsdComponent/>} />
                 </Routes>
             </Container>
           </Box>

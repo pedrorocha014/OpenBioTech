@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import "./style.css";
-import { FormGroup, FormLabel, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { FormEvent, useState } from "react";
 import { sendAnalysisData } from "../../../services/httpService";
 import { ISendAnalysisDto } from "../../../services/interfaces/ISendAnalysisDto";
@@ -21,7 +21,7 @@ export function ProteinSequence() {
     let data:ISendAnalysisDto = {
       sequence: sequenceElement.value,
       mutations: mutationElement.value,
-      type: "protein_sequence"
+      type: "sequence"
     }
 
     sequenceElement.value = "";

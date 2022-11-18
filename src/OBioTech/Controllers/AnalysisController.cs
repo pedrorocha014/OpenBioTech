@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OBioTech.Models;
 using OBioTech.Services.Analysis;
-using OBioTech.Services.Register;
 
 namespace OBioTech.Controllers
 {
@@ -11,13 +10,13 @@ namespace OBioTech.Controllers
     {
         private readonly IAnalysisMap _analysisMap;
 
-        public AnalysisController(IAnalysisMap analysisMap, RegisterService registerService)
+        public AnalysisController(IAnalysisMap analysisMap)
         {
             _analysisMap = analysisMap;
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendDataToAnalysis([FromBody] AnalysisDto analysisDto)
+        public async Task<IActionResult> SendDataToAnalysis([FromForm] AnalysisDto analysisDto)
         {
             var result = _analysisMap.Map(analysisDto);
 
