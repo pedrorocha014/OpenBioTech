@@ -1,6 +1,7 @@
 ﻿using OBioTech.Helpers.CustomErrors;
 using OBioTech.Helpers.Enums;
 using OBioTech.Models;
+using OBioTech.Models.Dtos;
 using OBioTech.Services.Analysis.Operation;
 namespace OBioTech.Services.Analysis
 {
@@ -18,9 +19,6 @@ namespace OBioTech.Services.Analysis
                     operation = new ProteinSequence(analysisDto);
                     break;
 
-                case AnalysisType.RMSD:
-                    operation = new RMSD(analysisDto);
-                    break;
                 default:
                     break;
             }
@@ -33,6 +31,13 @@ namespace OBioTech.Services.Analysis
             }
 
             return result;
+        }
+
+        public AnalysisResult Map(RmsdDto rmsdDto)
+        {
+            var operation = new RMSD(rmsdDto);
+            
+            return operation?.ExecuteOperation();
         }
     }
 }

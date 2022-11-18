@@ -21,7 +21,7 @@ export function ProteinSequence() {
     let data:ISendAnalysisDto = {
       sequence: sequenceElement.value,
       mutations: mutationElement.value,
-      type: "sequence"
+      type: "SEQUENCE"
     }
 
     sequenceElement.value = "";

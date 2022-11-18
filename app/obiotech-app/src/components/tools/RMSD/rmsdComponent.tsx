@@ -1,6 +1,8 @@
 import { Button, Grid, TextField } from "@mui/material";
 import { FormEvent, useState } from "react";
 import * as ReactBootStrap from 'react-bootstrap'
+import { sendRMSDData } from "../../../services/httpService";
+import { ISendRMSDDto } from "../../../services/interfaces/ISendRMSDDto";
 
 export function RmsdComponent() {
 
@@ -8,23 +10,35 @@ export function RmsdComponent() {
   
     async function analysisHandle(event: FormEvent) {
         event.preventDefault();
+        
+        const resultElement = (document.getElementById("result-multiline") as HTMLInputElement);
+        console.log(event)
+        // let data:ISendRMSDDto = {
+        //   file: 
+        //   type: "RMSD"
+        // }
+
+        setLoading(true);
+        //const response = await sendRMSDData(data);
+      
+        //(response.data.isSuccess ? "Analysis requested successfully !" : response.data.message );
+      
+        // resultElement.value = response.data.value.replaceAll('[', '').replaceAll(']','').replaceAll('"','').replaceAll(',','');
+        setLoading(false);
     }
 
     const form = (
-      <form id="form-box" onSubmit={(e) => analysisHandle(e)}>
-        <div className="forms-fields">
-            <TextField
-              id="rmsd-input-multiline"
-              label="Raw Data"
-              multiline
-              rows={10}
-              className="multiline-text"
-            />
-        </div>
-        <div className="button-container">
-          <Button variant="outlined" type="submit">Send</Button>
-        </div>
-      </form>
+      <Button
+          variant="contained"
+          component="label"
+        >
+        Upload File
+        <input
+          onChange={ (e) => analysisHandle(e) }
+          type="file"
+          hidden
+        />
+      </Button>
     );
 
   const renderForm = (
@@ -56,7 +70,7 @@ export function RmsdComponent() {
       </Grid>
       <Grid item xs={12}>
         <TextField
-          id="result-multiline-mutation"
+          id="result-multiline"
           label="Result"
           multiline
           rows={10}

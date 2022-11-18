@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OBioTech.Models;
+using OBioTech.Models.Dtos;
 using OBioTech.Services.Analysis;
 
 namespace OBioTech.Controllers
@@ -15,12 +15,18 @@ namespace OBioTech.Controllers
             _analysisMap = analysisMap;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SendDataToAnalysis([FromForm] AnalysisDto analysisDto)
+        [HttpPost("sequence")]
+        public async Task<IActionResult> SendDataToAnalysis([FromBody] AnalysisDto analysisDto)
         {
             var result = _analysisMap.Map(analysisDto);
 
             return Ok(result);
+        }
+
+        [HttpPost("rmsd")]
+        public async Task<IActionResult> SendDataToRMSDOperation([FromForm] RmsdDto rmsdDto)
+        {
+            return Ok();
         }
 
         [HttpGet]

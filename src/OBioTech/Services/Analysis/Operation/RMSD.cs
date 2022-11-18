@@ -1,5 +1,6 @@
 ﻿using OBioTech.Helpers.Data;
 using OBioTech.Models;
+using OBioTech.Models.Dtos;
 using System.Text.Json;
 
 namespace OBioTech.Services.Analysis.Operation
@@ -10,7 +11,7 @@ namespace OBioTech.Services.Analysis.Operation
         private List<List<Atom>> _atoms = new List<List<Atom>>();
         private List<RmsdResult> _rmsdList = new List<RmsdResult>();
 
-        public RMSD(AnalysisDto analysisDto)
+        public RMSD(RmsdDto analysisDto)
         {
             _lines = ExtractData.ReadAsList(analysisDto.File);
         }
@@ -29,7 +30,7 @@ namespace OBioTech.Services.Analysis.Operation
                         if (modelNumber != 0)
                         {
                             _atoms.Add(atom);
-                            atom.Clear();
+                            atom = new List<Atom>();
 
                             modelNumber++;
                         }
@@ -65,8 +66,13 @@ namespace OBioTech.Services.Analysis.Operation
                 return analysisResult;
             }
 
-            //Model number ta vindo errado
-            CalculateRMSD(_atoms[0], _atoms[1]);
+            foreach (var item_1 in _atoms)
+            {
+                foreach (var item_2 in _atoms.Where(e => item_1[0].Model != e[0].Model))
+                {
+                    CalculateRMSD(item_1, item_2);
+                }
+            }
 
             analysisResult.IsSuccess = true;
             analysisResult.Message = $"Operation performed successfully.";
