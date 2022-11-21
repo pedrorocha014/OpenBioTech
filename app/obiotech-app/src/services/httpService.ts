@@ -5,7 +5,7 @@ import { ISendRMSDDto } from "./interfaces/ISendRMSDDto";
 
 
 export async function sendAnalysisData(data:ISendAnalysisDto): Promise<AxiosResponse<ISendDataResponse>> {
-    const url = 'https://localhost:7165/Analysis/sequence';
+    const url = 'https://obiotech-solution.azurewebsites.net/analysis/sequence';
 
     const result = await axios.post<ISendDataResponse>(url, data);
 
@@ -13,7 +13,7 @@ export async function sendAnalysisData(data:ISendAnalysisDto): Promise<AxiosResp
 }
 
 export async function sendRMSDData(data:ISendRMSDDto): Promise<AxiosResponse<ISendDataResponse>> {
-    const url = 'https://localhost:7165/Analysis/rmsd';
+    const url = 'https://obiotech-solution.azurewebsites.net/analysis/rmsd';
 
     const formData = new FormData();
 
