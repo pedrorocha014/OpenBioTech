@@ -72,13 +72,13 @@ export function ToolsListItems() {
       </ListItemButton>
       <Collapse in={openTools} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
+          <ListItemButton sx={{ pl: 4 }} onClick={() => navigate('/rmsd')}>
             <ListItemIcon>
               <AssignmentIcon/>
             </ListItemIcon>
             <ListItemText primary="RMSD" />
           </ListItemButton>
-          <ListItemButton  sx={{ pl: 4 }} onClick={() => navigate('/proteinSequence')}>
+          <ListItemButton  sx={{ pl: 4 }} onClick={() => navigate('/sequence')}>
             <ListItemIcon>
               <AssignmentIcon />
             </ListItemIcon>

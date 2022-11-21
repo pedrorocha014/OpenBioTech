@@ -1,47 +1,43 @@
-﻿using OBioTech.Helpers.Enums;
+﻿using OBioTech.Helpers.CustomErrors;
+using OBioTech.Helpers.Enums;
 using OBioTech.Models;
+using OBioTech.Models.Dtos;
 using OBioTech.Services.Analysis.Operation;
 namespace OBioTech.Services.Analysis
 {
     public class AnalysisMap : IAnalysisMap
     {
-        public AnalysisResult MapAnalysis(AnalysisDto analysisDto)
+        public AnalysisResult Map(AnalysisDto analysisDto)
         {
-            AnalysisType analysisType;
-            IOperation operation = null;
+            _ = Enum.TryParse(analysisDto.Type, out AnalysisType analysisType);
 
-            Enum.TryParse(analysisDto.Type, out analysisType);
+            OperationBase? operation = null;
 
             switch (analysisType)
             {
-                case AnalysisType.PROTEIN_SEQUENCE:
-                    var sequence = GetSequenceList(analysisDto.Sequence);
-                    var mutations = GetMutationList(analysisDto.Mutations);
-
-                    operation = new ProteinSequence(sequence, mutations);
+                case AnalysisType.SEQUENCE:
+                    operation = new ProteinSequence(analysisDto);
                     break;
+
                 default:
                     break;
             }
+
+            var result = operation?.ExecuteOperation();
+
+            if (result is null)
+            {
+                throw new OperationException("Operation is Null.");
+            }
+
+            return result;
+        }
+
+        public AnalysisResult Map(RmsdDto rmsdDto)
+        {
+            var operation = new RMSD(rmsdDto);
             
-            return operation.ExecuteOperation();
-        }
-
-        private static List<char> GetSequenceList(string sequenceString)
-        {
-            return
-                sequenceString
-                .Trim()
-                .ToCharArray()
-                .ToList();
-        }
-
-        private static List<string> GetMutationList(string mutationString)
-        {
-            return mutationString
-                .Trim()
-                .Split(',')
-                .ToList();
+            return operation?.ExecuteOperation();
         }
     }
 }

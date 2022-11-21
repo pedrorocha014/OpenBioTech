@@ -1,24 +1,26 @@
 ﻿using OBioTech.Helpers.CustomErrors;
+using OBioTech.Helpers.Data;
 using OBioTech.Models;
+using OBioTech.Models.Dtos;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace OBioTech.Services.Analysis.Operation
 {
-    public class ProteinSequence : IOperation
+    public class ProteinSequence : OperationBase
     {
         private readonly List<char> _sequence;
         private readonly List<string> _mutations;
 
-        public ProteinSequence(List<char> sequence, List<string> mutations)
+        public ProteinSequence(AnalysisDto analysisDto)
         {
-            _sequence = sequence;
-            _mutations = mutations;
+            _sequence = ExtractData.GetSequenceList(analysisDto.Sequence);
+            _mutations = ExtractData.GetMutationList(analysisDto.Mutations);
         }
 
-        public AnalysisResult ExecuteOperation()
+        public override AnalysisResult ExecuteOperation()
         {
-            var result = new AnalysisResult { Operation = "Protein Sequence" };
+            analysisResult.Operation = "Sequence";
 
             try
             {
@@ -43,26 +45,26 @@ namespace OBioTech.Services.Analysis.Operation
             }
             catch (ValuePositionExeption e)
             {
-                result.IsSuccess = false;
-                result.Message = e.Message;
-                result.Value = "";
+                analysisResult.IsSuccess = false;
+                analysisResult.Message = e.Message;
+                analysisResult.Value = "";
 
-                return result;
+                return analysisResult;
             }
             catch (Exception e)
             {
-                result.IsSuccess = false;
-                result.Message = "Internal Error.";
-                result.Value = "";
+                analysisResult.IsSuccess = false;
+                analysisResult.Message = "Internal Error.";
+                analysisResult.Value = "";
 
-                return result;
+                return analysisResult;
             }
 
-            result.IsSuccess = true;
-            result.Message = $"Operation performed successfully.";
-            result.Value = JsonSerializer.Serialize<List<Char>>(_sequence);
+            analysisResult.IsSuccess = true;
+            analysisResult.Message = $"Operation performed successfully.";
+            analysisResult.Value = JsonSerializer.Serialize<List<Char>>(_sequence);
 
-            return result;
+            return analysisResult;
         }
 
         private void Replace(string mutation)
