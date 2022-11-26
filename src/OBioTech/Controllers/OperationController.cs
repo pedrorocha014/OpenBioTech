@@ -6,19 +6,19 @@ namespace OBioTech.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AnalysisController : ControllerBase
+    public class OperationController : ControllerBase
     {
         private readonly IAnalysisMap _analysisMap;
 
-        public AnalysisController(IAnalysisMap analysisMap)
+        public OperationController(IAnalysisMap analysisMap)
         {
             _analysisMap = analysisMap;
         }
 
         [HttpPost("sequence")]
-        public async Task<IActionResult> SendDataToAnalysis([FromBody] AnalysisDto analysisDto)
+        public async Task<IActionResult> SendDataToAnalysis([FromBody] SequenceDto sequenceDto)
         {
-            var result = _analysisMap.Map(analysisDto);
+            var result = _analysisMap.Map(sequenceDto);
 
             return Ok(result);
         }
