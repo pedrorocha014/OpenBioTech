@@ -21,7 +21,7 @@ namespace OBioTech.Services.Register
         public async Task<List<RegisterResult>> GetAsync() =>
             await _registerCollection.Find(_ => true).ToListAsync();
 
-        public async Task CreateAsync(AnalysisResult analysisResult)
+        public async Task CreateAsync(OperationResultDto analysisResult)
         {
             var resultDto = new RegisterResult
             {

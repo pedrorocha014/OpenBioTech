@@ -16,7 +16,7 @@ namespace OBioTech.Services.Analysis.Operation
             _lines = ExtractData.ReadAsList(analysisDto.File);
         }
 
-        public override AnalysisResult ExecuteOperation()
+        public override OperationResultDto ExecuteOperation()
         {
             var atom = new List<Atom>();
             var modelNumber = 0;

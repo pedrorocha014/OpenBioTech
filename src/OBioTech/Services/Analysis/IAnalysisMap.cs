@@ -5,7 +5,7 @@ namespace OBioTech.Services.Analysis
 {
     public interface IAnalysisMap
     {
-        public AnalysisResult Map(AnalysisDto analysisDto);
-        public AnalysisResult Map(RmsdDto rmsdDto);
+        public OperationResultDto Map(SequenceDto analysisDto);
+        public OperationResultDto Map(RmsdDto rmsdDto);
     }
 }

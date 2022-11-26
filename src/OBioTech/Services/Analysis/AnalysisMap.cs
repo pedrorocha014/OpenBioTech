@@ -7,7 +7,7 @@ namespace OBioTech.Services.Analysis
 {
     public class AnalysisMap : IAnalysisMap
     {
-        public AnalysisResult Map(AnalysisDto analysisDto)
+        public OperationResultDto Map(SequenceDto analysisDto)
         {
             _ = Enum.TryParse(analysisDto.Type, out AnalysisType analysisType);
 
@@ -33,7 +33,7 @@ namespace OBioTech.Services.Analysis
             return result;
         }
 
-        public AnalysisResult Map(RmsdDto rmsdDto)
+        public OperationResultDto Map(RmsdDto rmsdDto)
         {
             var operation = new RMSD(rmsdDto);
             

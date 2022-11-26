@@ -12,13 +12,13 @@ namespace OBioTech.Services.Analysis.Operation
         private readonly List<char> _sequence;
         private readonly List<string> _mutations;
 
-        public ProteinSequence(AnalysisDto analysisDto)
+        public ProteinSequence(SequenceDto analysisDto)
         {
             _sequence = ExtractData.GetSequenceList(analysisDto.Sequence);
             _mutations = ExtractData.GetMutationList(analysisDto.Mutations);
         }
 
-        public override AnalysisResult ExecuteOperation()
+        public override OperationResultDto ExecuteOperation()
         {
             analysisResult.Operation = "Sequence";
 
