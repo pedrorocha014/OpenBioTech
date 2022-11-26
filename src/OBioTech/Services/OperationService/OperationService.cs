@@ -1,4 +1,5 @@
 ﻿using OBioTech.Helpers.CustomErrors;
+using OBioTech.Helpers.Data;
 using OBioTech.Models.Dtos;
 using OBioTech.Services.Analysis.Operation;
 namespace OBioTech.Services.Analysis
@@ -7,10 +8,10 @@ namespace OBioTech.Services.Analysis
     {
         public T SelectOperation<U, T>(U operationDto) => operationDto switch
         {
-            SequenceDto         => new ProteinSequence((SequenceDto)Convert.ChangeType(operationDto, typeof(SequenceDto))).ExecuteOperation<T>(),
-            RmsdDto             => new RMSD((RmsdDto)Convert.ChangeType(operationDto, typeof(RmsdDto))).ExecuteOperation<T>(),
+            SequenceDto         => new ProteinSequence(ConvertGeneric.GenericToClass<U,SequenceDto>(operationDto)).ExecuteOperation<T>(),
+            RmsdDto             => new RMSD(ConvertGeneric.GenericToClass<U,RmsdDto>(operationDto)).ExecuteOperation<T>(),
             null                => throw new OperationException("Operation is Null."),
-            _                   => throw new OperationException("Operation is Null.")
+            _                   => throw new OperationException("Invalid Operation.")
         };
     }
 }

@@ -64,7 +64,7 @@ namespace OBioTech.Services.Analysis.Operation
                 rmsdResultDto.Message = "Internal Error.";
                 rmsdResultDto.RmsdResult = _rmsdList;
 
-                return (T)Convert.ChangeType(rmsdResultDto, typeof(T));
+                return ConvertGeneric.GenericToClass<RmsdResultDto, T>(rmsdResultDto);
             }
 
             foreach (var item_1 in _atoms)
@@ -81,7 +81,7 @@ namespace OBioTech.Services.Analysis.Operation
             rmsdResultDto.Message = $"Operation performed successfully.";
             rmsdResultDto.RmsdResult = _rmsdList;
 
-            return (T)Convert.ChangeType(rmsdResultDto, typeof(T));
+            return ConvertGeneric.GenericToClass<RmsdResultDto, T>(rmsdResultDto);
         }
 
         private void CalculateRMSD(List<Atom> model_1, List<Atom> model_2)

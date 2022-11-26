@@ -49,7 +49,7 @@ namespace OBioTech.Services.Analysis.Operation
                 sequenceResultDto.Message = e.Message;
                 sequenceResultDto.Value = "";
 
-                return (T)Convert.ChangeType(sequenceResultDto, typeof(T));
+                return ConvertGeneric.GenericToClass<SequenceResultDto, T>(sequenceResultDto);
             }
             catch (Exception e)
             {
@@ -57,14 +57,14 @@ namespace OBioTech.Services.Analysis.Operation
                 sequenceResultDto.Message = "Internal Error.";
                 sequenceResultDto.Value = "";
 
-                return (T)Convert.ChangeType(sequenceResultDto, typeof(T));
+                return ConvertGeneric.GenericToClass<SequenceResultDto, T>(sequenceResultDto);
             }
 
             sequenceResultDto.IsSuccess = true;
             sequenceResultDto.Message = $"Operation performed successfully.";
-            sequenceResultDto.Value = JsonSerializer.Serialize<List<Char>>(_sequence);
-
-            return (T)Convert.ChangeType(sequenceResultDto, typeof(T));
+            sequenceResultDto.Value = String.Concat(_sequence);
+            
+            return ConvertGeneric.GenericToClass<SequenceResultDto, T>(sequenceResultDto);
         }
 
         private void Replace(string mutation)
@@ -108,6 +108,11 @@ namespace OBioTech.Services.Analysis.Operation
                 {
                     _sequence[position - 1] = '-';
                 }
+            }
+            else
+            {
+                var index = Int32.Parse(positionsToDelete[0]);
+                _sequence[index - 1] = '-';
             }
         }
     }
