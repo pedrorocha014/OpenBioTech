@@ -8,17 +8,17 @@ namespace OBioTech.Controllers
     [Route("[controller]")]
     public class OperationController : ControllerBase
     {
-        private readonly IAnalysisMap _analysisMap;
+        private readonly IOperationService _operation;
 
-        public OperationController(IAnalysisMap analysisMap)
+        public OperationController(IOperationService operationService)
         {
-            _analysisMap = analysisMap;
+            _operation = operationService;
         }
 
         [HttpPost("sequence")]
         public async Task<IActionResult> SendDataToAnalysis([FromBody] SequenceDto sequenceDto)
         {
-            var result = _analysisMap.Map(sequenceDto);
+            var result = _operation.SelectOperation<SequenceDto, SequenceResultDto>(sequenceDto);
 
             return Ok(result);
         }
@@ -26,7 +26,7 @@ namespace OBioTech.Controllers
         [HttpPost("rmsd")]
         public async Task<IActionResult> SendDataToRMSDOperation([FromForm] RmsdDto rmsdDto)
         {
-            var result = _analysisMap.Map(rmsdDto);
+            var result = _operation.SelectOperation<RmsdDto, RmsdResultDto>(rmsdDto);
             return Ok(result);
         }
 

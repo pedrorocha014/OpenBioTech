@@ -1,6 +1,5 @@
 ﻿using OBioTech.Helpers.CustomErrors;
 using OBioTech.Helpers.Data;
-using OBioTech.Models;
 using OBioTech.Models.Dtos;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -18,9 +17,10 @@ namespace OBioTech.Services.Analysis.Operation
             _mutations = ExtractData.GetMutationList(analysisDto.Mutations);
         }
 
-        public override OperationResultDto ExecuteOperation()
+        public override T ExecuteOperation<T>()
         {
-            analysisResult.Operation = "Sequence";
+            SequenceResultDto sequenceResultDto = new SequenceResultDto();
+            sequenceResultDto.Operation = "Sequence";
 
             try
             {
@@ -45,26 +45,26 @@ namespace OBioTech.Services.Analysis.Operation
             }
             catch (ValuePositionExeption e)
             {
-                analysisResult.IsSuccess = false;
-                analysisResult.Message = e.Message;
-                analysisResult.Value = "";
+                sequenceResultDto.IsSuccess = false;
+                sequenceResultDto.Message = e.Message;
+                sequenceResultDto.Value = "";
 
-                return analysisResult;
+                return (T)Convert.ChangeType(sequenceResultDto, typeof(T));
             }
             catch (Exception e)
             {
-                analysisResult.IsSuccess = false;
-                analysisResult.Message = "Internal Error.";
-                analysisResult.Value = "";
+                sequenceResultDto.IsSuccess = false;
+                sequenceResultDto.Message = "Internal Error.";
+                sequenceResultDto.Value = "";
 
-                return analysisResult;
+                return (T)Convert.ChangeType(sequenceResultDto, typeof(T));
             }
 
-            analysisResult.IsSuccess = true;
-            analysisResult.Message = $"Operation performed successfully.";
-            analysisResult.Value = JsonSerializer.Serialize<List<Char>>(_sequence);
+            sequenceResultDto.IsSuccess = true;
+            sequenceResultDto.Message = $"Operation performed successfully.";
+            sequenceResultDto.Value = JsonSerializer.Serialize<List<Char>>(_sequence);
 
-            return analysisResult;
+            return (T)Convert.ChangeType(sequenceResultDto, typeof(T));
         }
 
         private void Replace(string mutation)
