@@ -61,7 +61,7 @@ namespace OBioTech.Services.Analysis.Operation
             {
                 analysisResult.IsSuccess = false;
                 analysisResult.Message = "Internal Error.";
-                analysisResult.Value = "";
+                analysisResult.RmsdResult = _rmsdList;
 
                 return analysisResult;
             }
@@ -74,9 +74,11 @@ namespace OBioTech.Services.Analysis.Operation
                 }
             }
 
+            _rmsdList = _rmsdList.OrderBy(x => x.Rmsd).ToList();
+
             analysisResult.IsSuccess = true;
             analysisResult.Message = $"Operation performed successfully.";
-            analysisResult.Value = JsonSerializer.Serialize<List<RmsdResult>>(_rmsdList);
+            analysisResult.RmsdResult = _rmsdList;
 
             return analysisResult;
         }

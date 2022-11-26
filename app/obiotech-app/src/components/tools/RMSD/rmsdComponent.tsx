@@ -1,12 +1,14 @@
-import { Button, Grid, TextField } from "@mui/material";
+import { Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import { FormEvent, useState } from "react";
 import * as ReactBootStrap from 'react-bootstrap'
 import { sendRMSDData } from "../../../services/httpService";
+import { IRmsdValue } from "../../../services/interfaces/ISendDataResponse";
 import { ISendRMSDDto } from "../../../services/interfaces/ISendRMSDDto";
 
 export function RmsdComponent() {
 
     const [loading, setLoading] = useState(false);
+    const [rmsdData, setRmsdData] = useState<IRmsdValue[]>();
   
     async function analysisHandle(event: React.ChangeEvent<HTMLInputElement>) {
         event.preventDefault();
@@ -25,7 +27,7 @@ export function RmsdComponent() {
       
         alert(response.data.isSuccess ? "RMSD requested successfully !" : response.data.message );
       
-        resultElement.value = response.data.value;
+        setRmsdData(response.data.rmsdResult || []);
         setLoading(false);
     }
 
@@ -71,14 +73,29 @@ export function RmsdComponent() {
         <h1 className="grid-title">Result</h1>
       </Grid>
       <Grid item xs={12}>
-        <TextField
-          id="result-multiline"
-          label="Result"
-          multiline
-          rows={10}
-          defaultValue="Default Value"
-          className="multiline-text"
-        />
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Models</TableCell>
+                <TableCell align="right">Values</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rmsdData?.map((row) => (
+                <TableRow
+                  key={row.models}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {row.models}
+                  </TableCell>
+                  <TableCell align="right">{row.rmsd}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Grid>
     </Grid>
   );

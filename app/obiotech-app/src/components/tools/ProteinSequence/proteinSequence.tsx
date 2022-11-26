@@ -32,7 +32,7 @@ export function ProteinSequence() {
 
     alert(response.data.isSuccess ? "Analysis requested successfully !" : response.data.message );
 
-    resultElement.value = response.data.value.replaceAll('[', '').replaceAll(']','').replaceAll('"','').replaceAll(',','');
+    resultElement.value = response.data.value?.replaceAll('[', '').replaceAll(']','').replaceAll('"','').replaceAll(',','') || "";
     setLoading(false);
   }
 
