@@ -4,7 +4,6 @@ namespace OBioTech.Services.Analysis.Operation
 {
     public abstract class OperationBase
     {
-        public AnalysisResult analysisResult = new AnalysisResult();
-        public abstract AnalysisResult ExecuteOperation();
+        public abstract T ExecuteOperation<T>();
     }
 }

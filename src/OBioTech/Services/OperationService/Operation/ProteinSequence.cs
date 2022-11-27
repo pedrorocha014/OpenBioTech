@@ -1,6 +1,5 @@
 ﻿using OBioTech.Helpers.CustomErrors;
 using OBioTech.Helpers.Data;
-using OBioTech.Models;
 using OBioTech.Models.Dtos;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -12,15 +11,16 @@ namespace OBioTech.Services.Analysis.Operation
         private readonly List<char> _sequence;
         private readonly List<string> _mutations;
 
-        public ProteinSequence(AnalysisDto analysisDto)
+        public ProteinSequence(SequenceDto analysisDto)
         {
             _sequence = ExtractData.GetSequenceList(analysisDto.Sequence);
             _mutations = ExtractData.GetMutationList(analysisDto.Mutations);
         }
 
-        public override AnalysisResult ExecuteOperation()
+        public override T ExecuteOperation<T>()
         {
-            analysisResult.Operation = "Sequence";
+            SequenceResultDto sequenceResultDto = new SequenceResultDto();
+            sequenceResultDto.Operation = "Sequence";
 
             try
             {
@@ -45,26 +45,26 @@ namespace OBioTech.Services.Analysis.Operation
             }
             catch (ValuePositionExeption e)
             {
-                analysisResult.IsSuccess = false;
-                analysisResult.Message = e.Message;
-                analysisResult.Value = "";
+                sequenceResultDto.IsSuccess = false;
+                sequenceResultDto.Message = e.Message;
+                sequenceResultDto.Value = "";
 
-                return analysisResult;
+                return ConvertGeneric.GenericToClass<SequenceResultDto, T>(sequenceResultDto);
             }
             catch (Exception e)
             {
-                analysisResult.IsSuccess = false;
-                analysisResult.Message = "Internal Error.";
-                analysisResult.Value = "";
+                sequenceResultDto.IsSuccess = false;
+                sequenceResultDto.Message = "Internal Error.";
+                sequenceResultDto.Value = "";
 
-                return analysisResult;
+                return ConvertGeneric.GenericToClass<SequenceResultDto, T>(sequenceResultDto);
             }
 
-            analysisResult.IsSuccess = true;
-            analysisResult.Message = $"Operation performed successfully.";
-            analysisResult.Value = JsonSerializer.Serialize<List<Char>>(_sequence);
-
-            return analysisResult;
+            sequenceResultDto.IsSuccess = true;
+            sequenceResultDto.Message = $"Operation performed successfully.";
+            sequenceResultDto.Value = String.Concat(_sequence);
+            
+            return ConvertGeneric.GenericToClass<SequenceResultDto, T>(sequenceResultDto);
         }
 
         private void Replace(string mutation)
@@ -108,6 +108,11 @@ namespace OBioTech.Services.Analysis.Operation
                 {
                     _sequence[position - 1] = '-';
                 }
+            }
+            else
+            {
+                var index = Int32.Parse(positionsToDelete[0]);
+                _sequence[index - 1] = '-';
             }
         }
     }

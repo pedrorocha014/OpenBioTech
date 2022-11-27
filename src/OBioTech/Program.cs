@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<DatabaseModel>(
     builder.Configuration.GetSection("OBioTech"));
 
-builder.Services.AddScoped<IAnalysisMap, AnalysisMap>();
+builder.Services.AddScoped<IOperationService, OperationService>();
 builder.Services.AddSingleton<RegisterService>();
 
 builder.Services.AddControllers();

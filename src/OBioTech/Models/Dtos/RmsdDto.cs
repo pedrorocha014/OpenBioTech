@@ -1,5 +1,4 @@
-﻿using OBioTech.Helpers.CustomValidations;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace OBioTech.Models.Dtos
 {
@@ -7,9 +6,5 @@ namespace OBioTech.Models.Dtos
     {
         [Required]
         public IFormFile File { get; set; }
-
-        [Required]
-        [AnalysisTypeValidation]
-        public string Type { get; set; }
     }
 }

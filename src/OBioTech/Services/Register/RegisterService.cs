@@ -21,17 +21,17 @@ namespace OBioTech.Services.Register
         public async Task<List<RegisterResult>> GetAsync() =>
             await _registerCollection.Find(_ => true).ToListAsync();
 
-        public async Task CreateAsync(AnalysisResult analysisResult)
-        {
-            var resultDto = new RegisterResult
-            {
-                IsSuccess = analysisResult.IsSuccess,
-                Message = analysisResult.Message,
-                Operation = analysisResult.Operation,
-                Value = analysisResult.Value
-            };
+        //public async Task CreateAsync(OperationResultDto analysisResult)
+        //{
+        //    var resultDto = new RegisterResult
+        //    {
+        //        IsSuccess = analysisResult.IsSuccess,
+        //        Message = analysisResult.Message,
+        //        Operation = analysisResult.Operation,
+        //        Value = analysisResult.Value
+        //    };
 
-            await _registerCollection.InsertOneAsync(resultDto);
-        }
+        //    await _registerCollection.InsertOneAsync(resultDto);
+        //}
     }
 }

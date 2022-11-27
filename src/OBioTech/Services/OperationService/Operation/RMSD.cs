@@ -11,13 +11,14 @@ namespace OBioTech.Services.Analysis.Operation
         private List<List<Atom>> _atoms = new List<List<Atom>>();
         private List<RmsdResult> _rmsdList = new List<RmsdResult>();
 
-        public RMSD(RmsdDto analysisDto)
+        public RMSD(RmsdDto rmsdDto)
         {
-            _lines = ExtractData.ReadAsList(analysisDto.File);
+            _lines = ExtractData.ReadAsList(rmsdDto.File);
         }
 
-        public override AnalysisResult ExecuteOperation()
+        public override T ExecuteOperation<T>()
         {
+            RmsdResultDto rmsdResultDto = new RmsdResultDto();
             var atom = new List<Atom>();
             var modelNumber = 0;
 
@@ -59,11 +60,11 @@ namespace OBioTech.Services.Analysis.Operation
             }
             catch (Exception e)
             {
-                analysisResult.IsSuccess = false;
-                analysisResult.Message = "Internal Error.";
-                analysisResult.RmsdResult = _rmsdList;
+                rmsdResultDto.IsSuccess = false;
+                rmsdResultDto.Message = "Internal Error.";
+                rmsdResultDto.RmsdResult = _rmsdList;
 
-                return analysisResult;
+                return ConvertGeneric.GenericToClass<RmsdResultDto, T>(rmsdResultDto);
             }
 
             foreach (var item_1 in _atoms)
@@ -74,13 +75,13 @@ namespace OBioTech.Services.Analysis.Operation
                 }
             }
 
-            _rmsdList = _rmsdList.OrderBy(x => x.Rmsd).ToList();
+            _rmsdList = _rmsdList.OrderBy(x => x.Rmsd).DistinctBy(x => x.Rmsd).ToList();
 
-            analysisResult.IsSuccess = true;
-            analysisResult.Message = $"Operation performed successfully.";
-            analysisResult.RmsdResult = _rmsdList;
+            rmsdResultDto.IsSuccess = true;
+            rmsdResultDto.Message = $"Operation performed successfully.";
+            rmsdResultDto.RmsdResult = _rmsdList;
 
-            return analysisResult;
+            return ConvertGeneric.GenericToClass<RmsdResultDto, T>(rmsdResultDto);
         }
 
         private void CalculateRMSD(List<Atom> model_1, List<Atom> model_2)
