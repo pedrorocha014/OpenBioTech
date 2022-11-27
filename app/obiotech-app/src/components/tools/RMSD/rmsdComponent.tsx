@@ -3,7 +3,7 @@ import { FormEvent, useState } from "react";
 import * as ReactBootStrap from 'react-bootstrap'
 import { sendRMSDData } from "../../../services/httpService";
 import { IRmsdValue } from "../../../services/interfaces/ISendDataResponse";
-import { ISendRMSDDto } from "../../../services/interfaces/ISendRMSDDto";
+import { IRMSDDto } from "../../../services/interfaces/IRMSDDto";
 
 export function RmsdComponent() {
 
@@ -17,9 +17,8 @@ export function RmsdComponent() {
 
         const resultElement = (document.getElementById("result-multiline") as HTMLInputElement);
 
-        let data:ISendRMSDDto = {
-          file: files[0],
-          type: "RMSD"
+        let data:IRMSDDto = {
+          file: files[0]
         }
 
         setLoading(true);
@@ -90,7 +89,7 @@ export function RmsdComponent() {
                   <TableCell component="th" scope="row">
                     {row.models}
                   </TableCell>
-                  <TableCell align="right">{row.rmsd}</TableCell>
+                  <TableCell align="right">{row.rmsd.toFixed(4)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

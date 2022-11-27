@@ -75,7 +75,7 @@ namespace OBioTech.Services.Analysis.Operation
                 }
             }
 
-            _rmsdList = _rmsdList.OrderBy(x => x.Rmsd).ToList();
+            _rmsdList = _rmsdList.OrderBy(x => x.Rmsd).DistinctBy(x => x.Rmsd).ToList();
 
             rmsdResultDto.IsSuccess = true;
             rmsdResultDto.Message = $"Operation performed successfully.";

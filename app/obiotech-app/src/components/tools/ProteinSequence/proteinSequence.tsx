@@ -4,7 +4,7 @@ import "./style.css";
 import { Grid } from "@mui/material";
 import { FormEvent, useState } from "react";
 import { sendAnalysisData } from "../../../services/httpService";
-import { ISendAnalysisDto } from "../../../services/interfaces/ISendAnalysisDto";
+import { ISequenceDto } from "../../../services/interfaces/ISequenceDto";
 import * as ReactBootStrap from 'react-bootstrap'
 
 export function ProteinSequence() {
@@ -18,10 +18,9 @@ export function ProteinSequence() {
     const mutationElement = (document.getElementById("outlined-multiline-mutation") as HTMLInputElement);
     const resultElement = (document.getElementById("result-multiline-mutation") as HTMLInputElement);
 
-    let data:ISendAnalysisDto = {
+    let data:ISequenceDto = {
       sequence: sequenceElement.value,
-      mutations: mutationElement.value,
-      type: "SEQUENCE"
+      mutations: mutationElement.value
     }
 
     sequenceElement.value = "";
