@@ -1,77 +1,32 @@
 ﻿using OBioTech.Helpers.Data;
 using OBioTech.Models;
 using OBioTech.Models.Dtos;
-using System.Text.Json;
 
 namespace OBioTech.Services.Analysis.Operation
 {
     public class RMSD : OperationBase
     {
         private List<string> _lines = new List<string>();
-        private List<List<Atom>> _atoms = new List<List<Atom>>();
+        private List<PdbModel> _pdbModels = new List<PdbModel>();
         private List<RmsdResult> _rmsdList = new List<RmsdResult>();
 
         public RMSD(RmsdDto rmsdDto)
         {
             _lines = ExtractData.ReadAsList(rmsdDto.File);
+            _pdbModels = ExtractData.GetPdbModels(_lines);
         }
 
         public override T ExecuteOperation<T>()
         {
             RmsdResultDto rmsdResultDto = new RmsdResultDto();
-            var atom = new List<Atom>();
-            var modelNumber = 0;
 
-            try
+            _pdbModels = _pdbModels.Where(e => e.Atoms.Count > 0).ToList();
+
+            foreach (var model_1 in _pdbModels)
             {
-                _lines.ForEach(e =>
+                foreach (var model_2 in _pdbModels.Where(e => model_1.Id != e.Id))
                 {
-                    if (e.StartsWith("MODEL"))
-                    {
-                        if (modelNumber != 0)
-                        {
-                            _atoms.Add(atom);
-                            atom = new List<Atom>();
-
-                            modelNumber++;
-                        }
-                        else
-                        {
-                            modelNumber++;
-                        }
-
-                        return;
-                    }
-
-                    if (e.StartsWith("ATOM"))
-                    {
-                        var atomData = ExtractData.GetDataFromPdbAtomText(e, modelNumber.ToString());
-                        atom.Add(atomData);
-
-                        return;
-                    }
-
-                });
-
-                if (atom.Count > 0)
-                {
-                    _atoms.Add(atom);
-                }
-            }
-            catch (Exception e)
-            {
-                rmsdResultDto.IsSuccess = false;
-                rmsdResultDto.Message = "Internal Error.";
-                rmsdResultDto.RmsdResult = _rmsdList;
-
-                return ConvertGeneric.GenericToClass<RmsdResultDto, T>(rmsdResultDto);
-            }
-
-            foreach (var item_1 in _atoms)
-            {
-                foreach (var item_2 in _atoms.Where(e => item_1[0].Model != e[0].Model))
-                {
-                    CalculateRMSD(item_1, item_2);
+                    CalculateRMSD(model_1, model_2);
                 }
             }
 
@@ -84,19 +39,22 @@ namespace OBioTech.Services.Analysis.Operation
             return ConvertGeneric.GenericToClass<RmsdResultDto, T>(rmsdResultDto);
         }
 
-        private void CalculateRMSD(List<Atom> model_1, List<Atom> model_2)
+        private void CalculateRMSD(PdbModel model_1, PdbModel model_2)
         {
-            if (model_1.Count != model_2.Count)
+            var atoms_1 = model_1.Atoms;
+            var atoms_2 = model_2.Atoms;
+    
+            if (atoms_1.Count != atoms_2.Count)
             {
                 throw new Exception("Models with different numbers of atoms.");
             }
 
             var sum = 0.0;
 
-            foreach (var item1 in model_1)
+            foreach (var item1 in atoms_1)
             {
-                var i = model_1.IndexOf(item1);
-                var item2 = model_2[i];
+                var i = atoms_1.IndexOf(item1);
+                var item2 = atoms_2[i];
 
                 var deltaX = (item1.X - item2.X);
                 var deltaY = (item1.Y - item2.Y);
@@ -105,8 +63,8 @@ namespace OBioTech.Services.Analysis.Operation
                 sum += Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2) + Math.Pow(deltaZ, 2);
             }
 
-            var rmsdResult = Math.Sqrt(sum / model_1.Count);
-            var models = $"{model_1[0].Model} - {model_2[0].Model}"; 
+            var rmsdResult = Math.Sqrt(sum / atoms_1.Count);
+            var models = $"{model_1.Id} - {model_2.Id}"; 
 
             _rmsdList.Add(new RmsdResult { Rmsd = rmsdResult, Models = models});
         }

@@ -30,6 +30,13 @@ namespace OBioTech.Controllers
             return Ok(result);
         }
 
+        [HttpPost("proteinVizualization")]
+        public async Task<IActionResult> Test([FromForm] ProteinVisualizationDto rmsdDto)
+        {
+            var result = _operation.SelectOperation<ProteinVisualizationDto, ProteinVisualizationResultDto>(rmsdDto);
+            return Ok(result);
+        }
+
         [HttpGet]
         public IActionResult Check()
         {
