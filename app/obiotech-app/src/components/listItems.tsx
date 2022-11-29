@@ -24,32 +24,14 @@ export function MainListItems() {
       </ListItemIcon>
       <ListItemText primary="Home" />
     </ListItemButton>
-    {/* <ListItemButton onClick={() => navigate('/lastUpdates')}>
-      <ListItemIcon>
-        <AnnouncementIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last Updates" />
-    </ListItemButton>
-    <ListItemButton onClick={() => navigate('/documentation')}>
-      <ListItemIcon>
-        <ArticleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Documentation" />
-    </ListItemButton>
-    <ListItemButton onClick={() => navigate('/contactUs')}>
-      <ListItemIcon>
-        <CallIcon />
-      </ListItemIcon>
-      <ListItemText primary="Contact Us" />
-    </ListItemButton> */}
   </React.Fragment>
     );
 
     return (
-        <Box>   
-            {drawer}
-        </Box>
-      );
+      <div>   
+          {drawer}
+      </div>
+    );
 }
 
 export function ToolsListItems() {
@@ -84,12 +66,6 @@ export function ToolsListItems() {
             </ListItemIcon>
             <ListItemText primary="Sequence" />
           </ListItemButton>
-          <ListItemButton  sx={{ pl: 4 }} onClick={() => navigate('/test')}>
-            <ListItemIcon>
-              <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Protein Visualization" />
-          </ListItemButton>
         </List>
       </Collapse>
     </List>
@@ -97,8 +73,8 @@ export function ToolsListItems() {
     );
 
     return (
-        <Box>   
+        <div>   
             {drawer}
-        </Box>
+        </div>
       );
 }
