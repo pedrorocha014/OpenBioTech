@@ -35,7 +35,7 @@ export function RmsdComponent() {
           variant="contained"
           component="label"
         >
-        Upload File
+        Upload PDB File
         <input
           onChange={ (e) => analysisHandle(e) }
           type="file"
@@ -48,19 +48,6 @@ export function RmsdComponent() {
     <Grid container spacing={2} className="protein-sequence">
       <Grid item xs={12}>
         <h1 className="component-title">RMSD</h1>
-      </Grid>
-      <Grid item xs={12}>
-        <h1 className="grid-title">What ?</h1>
-      </Grid>
-      <Grid item xs={12}>
-        <p className="description">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-        <p className="description">It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-      </Grid>
-      <Grid item xs={12}>
-        <h1 className="grid-title">How To Use</h1>
-      </Grid>
-      <Grid item xs={12}>
-        <p className="description">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
       </Grid>
       <Grid item xs={12}>
         <h1 className="grid-title">RMSD Forms</h1>
