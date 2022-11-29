@@ -66,6 +66,12 @@ export function ToolsListItems() {
             </ListItemIcon>
             <ListItemText primary="Sequence" />
           </ListItemButton>
+          <ListItemButton  sx={{ pl: 4 }} onClick={() => navigate('/teste')}>
+            <ListItemIcon>
+              <AssignmentIcon />
+            </ListItemIcon>
+            <ListItemText primary="Visualization" />
+          </ListItemButton>
         </List>
       </Collapse>
     </List>
