@@ -23,21 +23,21 @@ interface SphereInterface{
   atomType: string
 }
 
-function Sphere({positionArray, atomType}: SphereInterface) {
+function Box(props: ThreeElements['mesh']) {
   const ref = useRef<THREE.Mesh>(null!)
   const [hovered, hover] = useState(false)
   const [clicked, click] = useState(false)
-  console.log(atomType);
+  useFrame((state, delta) => (ref.current.rotation.x += 0.01))
   return (
     <mesh
-      position={[positionArray[0], positionArray[1], positionArray[2]]}
+      {...props}
       ref={ref}
-      scale={clicked ? 0.4 : 0.4}
+      scale={clicked ? 1.5 : 1}
       onClick={(event) => click(!clicked)}
       onPointerOver={(event) => hover(true)}
       onPointerOut={(event) => hover(false)}>
-      <sphereGeometry args={[1, 10, 10]} />
-      <meshStandardMaterial color={atomsColorDictionary.get(atomType)} />
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
     </mesh>
   )
 }
@@ -62,6 +62,7 @@ export function ProteinVisualization() {
         setLoading(true);
         const response = await sendProteinVisualizationData(data);
         setAtomData(response.data.normalizedModel?.atoms || [])
+        console.log(atomData);
         setLoading(false);
     }
 
@@ -94,14 +95,12 @@ export function ProteinVisualization() {
         <h1 className="grid-title">Result</h1>
       </Grid>
       <Grid item xs={12} style={{ width: "50vw", height: "50vh" }}>
-        <Canvas>
-            <ambientLight />
-            <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
-            <pointLight position={[10, 10, 10]} />
-            {atomData?.map((atom) => (
-              <Sphere positionArray={[atom.x, atom.y, atom.z]} atomType={atom.type}/>
-            ))}
-        </Canvas>
+      <Canvas>
+        <ambientLight />
+        <pointLight position={[10, 10, 10]} />
+        <Box position={[-1.2, 0, 0]} />
+        <Box position={[1.2, 0, 0]} />
+      </Canvas>
       </Grid>
     </Grid>
   );
