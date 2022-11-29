@@ -1,22 +1,66 @@
 ﻿using OBioTech.Models;
+using System.Numerics;
 
 namespace OBioTech.Helpers.Data
 {
     public static class ExtractData
     {
-        public static Atom GetDataFromPdbAtomText(string pdbAtomText, string model)
+        public static List<PdbModel> GetPdbModels(List<string> lines)
         {
-            var serial = pdbAtomText.Substring(6, 5);
-            var x = Double.Parse(pdbAtomText.Substring(30, 8).Replace('.',','));
-            var y = Double.Parse(pdbAtomText.Substring(38, 8).Replace('.', ','));
-            var z = Double.Parse(pdbAtomText.Substring(47, 7).Replace('.', ','));
+            var modelList = new List<PdbModel>();
+            var pdbModel = new PdbModel();
+            pdbModel.Atoms = new List<Atom>();
+
+            var firstModel = true;
+
+            lines.ForEach(x => {
+                if (x.StartsWith("MODEL"))
+                {
+                    if (firstModel)
+                    {
+                        modelList.Add(pdbModel);
+                        pdbModel = new PdbModel();
+                        pdbModel.Atoms = new List<Atom>();
+                        pdbModel.Id = Int32.Parse(x.Substring(10, 4));
+                    }
+                    else
+                    {
+                        pdbModel.Id = Int32.Parse(x.Substring(10, 4));
+                        firstModel = false;
+                    }
+                }
+
+                if (x.StartsWith("ATOM"))
+                {
+                    var atomData = GetDataFromPdbAtomText(x);
+                    pdbModel.Atoms.Add(atomData);
+
+                    return;
+                }
+            });
+
+            if (pdbModel.Atoms.Count > 0)
+            {
+                modelList.Add(pdbModel);
+            }
+
+            return modelList;
+        }
+
+
+        public static Atom GetDataFromPdbAtomText(string pdbAtomText)
+        {
+            var type = pdbAtomText.Substring(76, 2).Trim();
+            var x = float.Parse(pdbAtomText.Substring(30, 8).Replace('.',','));
+            var y = float.Parse(pdbAtomText.Substring(38, 8).Replace('.', ','));
+            var z = float.Parse(pdbAtomText.Substring(47, 7).Replace('.', ','));
+
 
             return new Atom() { 
-                Model = model,
-                SerialNumber = serial, 
-                X = x, 
-                Y = y, 
+                X = x,
+                Y = y,
                 Z = z, 
+                Type = type
             };
         }
 
