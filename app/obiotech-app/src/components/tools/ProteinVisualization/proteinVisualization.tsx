@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { createRoot } from 'react-dom/client'
 import * as ReactBootStrap from 'react-bootstrap'
 import React, { useEffect, useRef, useState } from 'react'
-import { Canvas, useFrame, ThreeElements, useThree } from '@react-three/fiber'
+import { Canvas, useFrame, ThreeElements, useThree, Vector3 } from '@react-three/fiber'
 import { Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import { IProteinVisualizationDto } from '../../../services/interfaces/IProteinVisualizationDto';
 import { sendProteinVisualizationData } from '../../../services/httpService';
@@ -23,21 +23,21 @@ interface SphereInterface{
   atomType: string
 }
 
-function Box(props: ThreeElements['mesh']) {
+function Sphere({positionArray, atomType}: SphereInterface) {
   const ref = useRef<THREE.Mesh>(null!)
   const [hovered, hover] = useState(false)
   const [clicked, click] = useState(false)
-  useFrame((state, delta) => (ref.current.rotation.x += 0.01))
+
   return (
     <mesh
-      {...props}
+      position={[positionArray[0], positionArray[1], positionArray[2]]}
       ref={ref}
-      scale={clicked ? 1.5 : 1}
+      scale={clicked ? 0.5 : 0.2}
       onClick={(event) => click(!clicked)}
       onPointerOver={(event) => hover(true)}
       onPointerOut={(event) => hover(false)}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
+      <sphereGeometry args={[1, 10, 10]} />
+      <meshStandardMaterial color={atomsColorDictionary.get(atomType)} />
     </mesh>
   )
 }
@@ -52,7 +52,7 @@ export function ProteinVisualization() {
 
         const files = Array.from(event.target.files || []);
 
-        const resultElement = (document.getElementById("result-multiline") as HTMLInputElement);
+        //const resultElement = (document.getElementById("result-multiline") as HTMLInputElement);
 
         let data:IProteinVisualizationDto = {
           file: files[0],
@@ -95,12 +95,13 @@ export function ProteinVisualization() {
         <h1 className="grid-title">Result</h1>
       </Grid>
       <Grid item xs={12} style={{ width: "50vw", height: "50vh" }}>
-      <Canvas>
+      <Canvas camera={{ fov: 50, position: [0, 0, 10] }}>
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
         <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
-        <Box position={[-1.2, 0, 0]} />
-        <Box position={[1.2, 0, 0]} />
+        {atomData?.map((atom, index) => (
+          <Sphere key={index} positionArray={[atom.x/1000, atom.y/1000, atom.z/1000]} atomType={atom.type}/>
+        ))}
       </Canvas>
       </Grid>
     </Grid>
